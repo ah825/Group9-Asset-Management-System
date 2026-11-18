@@ -1,8 +1,13 @@
 import json
 from pathlib import Path
 
-def init_storage(file_path="data/assets.json"):
-    path = Path(file_path)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+def init_storage(file_path=None):
+    if file_path is None:
+        path = PROJECT_ROOT / "data" / "assets.json"
+    else:
+        path = Path(file_path)
 
     try:
         #Create storage directory if it doesn't exist
