@@ -64,3 +64,24 @@ class TestStorageBlackbox(unittest.TestCase):
 
             self.assertTrue(result)
             self.assertEqual(path.read_text(encoding="utf-8"), original)
+
+    #TC6, a file blocks directory creation
+    def test_directory_creation_failure(self):
+        with tempfile.TemporaryDirectory() as temp:
+            blocker = Path(temp) / "data"
+            blocker.write_text("blocking directory", encoding="utf-8")
+
+            path = blocker / "assets.json"
+            result = init_storage(path)
+            self.assertFalse(result)
+
+    #TC7, file blocks creation of storage directory
+    def test_nested_directory_creation_failure(self):
+        with tempfile.TemporaryDirectory() as temp:
+            blocker = Path(temp) / "blocked"
+            blocker.write_text("blocking directory", encoding="utf-8")
+
+            path = blocker / "nested" / "assets.json"
+
+            result = init_storage(path)
+            self.assertFalse(result)
