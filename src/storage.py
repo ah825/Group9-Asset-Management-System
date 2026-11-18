@@ -19,10 +19,10 @@ def init_storage(file_path=None):
 
         return True
 
-    except FileNotFoundError:
+    except FileExistsError:
         #Preserve existing file
         return True
 
     except OSError as error:
-        print("Unable to create storage {error}")
+        print(f"Unable to create storage: {error}")
         return False
