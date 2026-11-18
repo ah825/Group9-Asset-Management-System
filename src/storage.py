@@ -22,7 +22,11 @@ def init_storage(file_path=None):
 
     except FileExistsError:
         #Preserve existing file
+        if not path.is_file():
+            return False
+
         return True
+
 
     except OSError as error:
         print(f"Unable to create storage: {error}")
