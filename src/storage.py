@@ -3,6 +3,7 @@ from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
+#makes sure that data is initialised in the correct place
 def init_storage(file_path=None):
     if file_path is None:
         path = PROJECT_ROOT / "data" / "assets.json"
