@@ -4,6 +4,7 @@ import unittest
 from pathlib import Path
 
 from src.storage import init_storage
+from unittest.mock import patch
 
 class TestStorageBlackbox(unittest.TestCase):
 
@@ -94,3 +95,17 @@ class TestStorageBlackbox(unittest.TestCase):
 
             result = init_storage(path)
             self.assertFalse(result)
+
+    #White box test: Default strorage path
+    def test_deafault_storage_path(self):
+        with tempfile.TemporaryDirectory() as temp:
+            with patch("src.storage.PROJECT_ROOT", Path(temp)):
+                result = init_storage()
+
+                path = Path(temp) / "data" / "assets.json"
+
+                self.assertTrue(result)
+                self.assertTrue(path.is_file())
+
+                with path.open(encoding="utf-8") as file:
+                    self.assertEqual(json.load(file), {"assets": []})
