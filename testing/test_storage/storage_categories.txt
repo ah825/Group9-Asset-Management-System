@@ -1,0 +1,19 @@
+Category Partition Specification
+Function: init_storage(file_path=None)
+
+State of storage directory:
+Directory:
+    Exists [property DirectoryExists]
+    Missing [property DirectoryMissing]
+
+State of storage file:
+File:
+    Exists [if DirectoryExists] [property FileExists]
+    Missing [property FileMissing]
+
+Existing file content:
+content:
+    Empty [if FileExists]
+    Valid JSON with assets [if FileExists]
+    Invalid JSON [if FileExists]
+    Not applicable [if FileMissing]
