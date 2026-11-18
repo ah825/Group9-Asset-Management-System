@@ -37,3 +37,30 @@ class TestStorageBlackbox(unittest.TestCase):
             path = Path(temp) / "assets.json"
             original = '{"assets": []}'
             path.write_text(original, encoding="utf-8")
+
+    #TC4, Existing file contains asset records
+    def test_existing_file_with_assets(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "assets.json"
+
+            original = '{"assets": [{asset_id": "A001"}]}'
+            path.write_text(original, encoding="utf-8")
+
+            result = init_storage(path)
+
+            self.assertTrue(result)
+            self.assertEqual(path.read_text(encoding="utf-8"), original)
+
+
+    #TC5, Existing file contains invalid JSON
+    def test_existing_invalid_json(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "assets.json"
+
+            original = "{invalid json}"
+            path.write_text(original, encoding="utf-8")
+
+            result = init_storage(path)
+
+            self.assertTrue(result)
+            self.assertEqual(path.read_text(encoding="utf-8"), original)
