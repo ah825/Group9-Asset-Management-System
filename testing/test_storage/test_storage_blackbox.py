@@ -85,3 +85,12 @@ class TestStorageBlackbox(unittest.TestCase):
 
             result = init_storage(path)
             self.assertFalse(result)
+
+    #TC8, storage path is a directory instead of a file
+    def test_storage_path_directory(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / "assets.json"
+            path.mkdir()
+
+            result = init_storage(path)
+            self.assertFalse(result)
