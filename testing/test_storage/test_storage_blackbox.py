@@ -19,7 +19,7 @@ class TestStorageBlackbox(unittest.TestCase):
             self.assertTrue(path.is_file())
 
             with path.open("r", encoding="utf-8") as file:
-                self.assertEqual(json.load(file), {"assets: []"})
+                self.assertEqual(json.load(file), {"assets": []})
 
     #TC2, Directory exists but file is missing
     def test_missing_file(self):
@@ -29,7 +29,7 @@ class TestStorageBlackbox(unittest.TestCase):
             result = init_storage(path)
 
             self.assertTrue(result)
-            self.assertTrue(path.parent.is_file())
+            self.assertTrue(path.is_file())
 
     #TC3, File already exists
     def test_existing_file(self):
