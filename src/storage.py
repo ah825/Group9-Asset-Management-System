@@ -47,6 +47,27 @@ def save_asset(asset, file_path=None):
         "location"
     }
 
+    #uses default path unless one is given
+    if file_path is None:
+        path = PROJECT_ROOT / "data" / "assets.json"
+    else:
+        path = Path(file_path)
+
+    #reads data into Directory
+    try:
+        with path.open("r", encoding="utf-8") as file:
+            data = json.load(file)
+
+    #returns false if file can't be read or if it contains invalid JSON
+        if not isinstance(data, dict):
+            return False
+
+        if not isinstance(data.get("assets"), list):
+            return False
+
+    except (OSError, json.decoder.JSONDecodeError):
+        return False
+
     #checks input is dict
     if not isinstance(asset, dict):
         return False
