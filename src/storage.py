@@ -1,5 +1,7 @@
 import json
 from pathlib import Path
+import os
+import tempfile
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
@@ -36,6 +38,9 @@ def init_storage(file_path=None):
 
 
 
+
+
+
 #Save asset function
 def save_asset(asset, file_path=None):
     required_fields = {
@@ -46,6 +51,14 @@ def save_asset(asset, file_path=None):
         "status",
         "location"
     }
+
+    # checks input is dict
+    if not isinstance(asset, dict):
+        return False
+
+    # checks all fields are present
+    if not required_fields.issubset(set(asset.keys())):
+        return False
 
     #uses default path unless one is given
     if file_path is None:
@@ -73,10 +86,34 @@ def save_asset(asset, file_path=None):
         if existing_asset[asset["asset_id"]] == asset["asset_id"]:
             return False
 
-    #checks input is dict
-    if not isinstance(asset, dict):
+
+    #appends the asset to the file
+    data["assets"].append(asset)
+    temp_path = None;
+
+    #creates a temporary file thats in the same directory
+    try:
+        with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                dir=path.parent,
+                delete=False
+        #writes updated asset records
+        ) as temp_file:
+            temp_path = Path(temp_file.name)
+            json.dump(data, temp_file, indent=4)
+
+        #replaces the original file after temp file is written
+        os.replace(temp_path, path)
+        return True
+
+    #error handling
+    except (OSError, TypeError, ValueError):
         return False
 
-    #checks all fields are present
-    if not required_fields.issubset(set(asset.keys())):
-        return False
+    #cleans up leftover temp file
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+
+
