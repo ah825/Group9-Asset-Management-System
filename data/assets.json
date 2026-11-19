@@ -1,3 +1,12 @@
 {
-    "assets": []
+    "assets": [
+        {
+            "asset_id": 1,
+            "name": "Dell Laptop",
+            "category": "Electronics",
+            "value": 750.0,
+            "status": "Available",
+            "location": "Office"
+        }
+    ]
 }
