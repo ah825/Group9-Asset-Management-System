@@ -83,13 +83,13 @@ def save_asset(asset, file_path=None):
 
     #checks for duplicate asset id
     for existing_asset in data["assets"]:
-        if existing_asset[asset["asset_id"]] == asset["asset_id"]:
+        if existing_asset.get("asset_id") == asset["asset_id"]:
             return False
 
 
     #appends the asset to the file
     data["assets"].append(asset)
-    temp_path = None;
+    temp_path = None
 
     #creates a temporary file thats in the same directory
     try:
@@ -114,6 +114,9 @@ def save_asset(asset, file_path=None):
     #cleans up leftover temp file
     finally:
         if temp_path is not None:
-            temp_path.unlink(missing_ok=True)
+            try:
+                temp_path.unlink(missing_ok=True)
+            except OSError:
+                pass
 
 
