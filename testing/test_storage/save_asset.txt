@@ -1,21 +1,21 @@
 #Asset input
 Asset Input:
-    Valid Dictionary
-    Missing required fields [error]
-    Not a dictionary [error]
+    Valid Dictionary. [property Valid]
+    Missing required fields. [error]
+    Not a dictionary. [error]
 
 #Asset ID
 Asset ID:
-    Unique
-    Duplicate
+    Unique.
+    Duplicate. [single]
 
 #Storage file
 Storage File:
-    Exists
-    Missing
-    Invalid JSON
+    Exists.
+    Missing. [single]
+    Invalid JSON. [single]
 
 #Writing operation
 Writing operation
-    Successful
-    Filesystem error
+    Successful.
+    Filesystem error. [single]
