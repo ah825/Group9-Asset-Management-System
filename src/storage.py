@@ -68,6 +68,11 @@ def save_asset(asset, file_path=None):
     except (OSError, json.decoder.JSONDecodeError):
         return False
 
+    #checks for duplicate asset id
+    for existing_asset in data["assets"]:
+        if existing_asset[asset["asset_id"]] == asset["asset_id"]:
+            return False
+
     #checks input is dict
     if not isinstance(asset, dict):
         return False
