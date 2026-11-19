@@ -1,0 +1,21 @@
+#Asset input
+Asset Input:
+    Valid Dictionary.
+    Missing required fields.[error]
+    Not a dictionary.[error]
+
+#Asset ID
+Asset ID:
+    Unique.
+    Duplicate.[single]
+
+#Storage file
+Storage File:
+    Exists.
+    Missing.[single]
+    Invalid JSON.[single]
+
+#Writing operation
+Writing operation:
+    Successful.
+    Filesystem error.[single]
