@@ -120,3 +120,25 @@ def save_asset(asset, file_path=None):
                 pass
 
 
+
+
+def validate_asset(asset):
+    required_fields = {
+        "asset_id",
+        "name",
+        "category",
+        "value",
+        "status",
+        "location"
+    }
+
+    #Check if asset is dict
+    if not isinstance(asset, dict):
+        return False, "Invalid asset input"
+
+    #Check that all fields exist
+    if not required_fields.issubset(set(asset.keys())):
+        return False, "Invalid asset input"
+
+    return True, None
+
