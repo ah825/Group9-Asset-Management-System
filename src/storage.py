@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import os
 import tempfile
+import math
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
@@ -145,7 +146,7 @@ def validate_asset(asset):
         return False, "Invalid asset input"
 
     #Asset value must be non-negative num
-    if type(asset["value"]) not in (int, float) or asset["value"] < 0:
+    if type(asset["value"]) not in (int, float) or not math.isfinite(asset["value"]) or asset["value"] < 0:
         return False, "Invalid asset input"
 
     #Text fields must be non-empty str
