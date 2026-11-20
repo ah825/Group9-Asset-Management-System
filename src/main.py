@@ -4,14 +4,15 @@ from storage import init_storage, save_asset
 
 init_storage()
 
+from src.storage import validate_asset
+
 asset = {
     "asset_id": 1,
-    "name": "Dell Laptop",
+    "name": "   ",
     "category": "Electronics",
-    "value": 750.00,
+    "value": 750,
     "status": "Available",
     "location": "Office"
 }
 
-result = save_asset(asset)
-print("asset saved:", result)
+print(validate_asset(asset))

@@ -140,5 +140,19 @@ def validate_asset(asset):
     if not required_fields.issubset(set(asset.keys())):
         return False, "Invalid asset input"
 
+    #Asset ID must be positive int
+    if type(asset["asset_id"]) is not int or asset["asset_id"] <= 0:
+        return False, "Invalid asset input"
+
+    #Asset value must be non-negative num
+    if type(asset["value"]) not in (int, float) or asset["value"] < 0:
+        return False, "Invalid asset input"
+
+    #Text fields must be non-empty str
+    text_fields = ["name", "category", "status", "location"]
+    for field in text_fields:
+        if not isinstance(asset[field], str) or not asset[field].strip():
+            return False, "Invalid asset input"
+
     return True, None
 
