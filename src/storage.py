@@ -156,3 +156,39 @@ def validate_asset(asset):
 
     return True, None
 
+
+#user asset input
+def add_asset():
+    print("\n Add Asset")
+
+    #Gets values from user
+    asset = {
+        "asset_id": input("Enter asset ID: "),
+        "name": input("Enter asset name: "),
+        "category": input("Enter asset category: "),
+        "value": input("Enter asset value: "),
+        "status": input("Enter asset status: "),
+        "location": input("Enter asset location: "),
+    }
+
+    try:
+        #converts into int and float
+        asset["asset_id"] = int(asset["asset_id"])
+        asset["value"] = float(asset["value"])
+    except ValueError:
+        print("Invalid asset input")
+        return False
+
+    #checks converted values
+    valid, error = validate_asset(asset)
+
+    if not valid:
+        print(error)
+        return False
+
+    if save_asset(asset):
+        print("Successfully saved asset")
+        return True
+
+    print("unable to save asset")
+    return False
