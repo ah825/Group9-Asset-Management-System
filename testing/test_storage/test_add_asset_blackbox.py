@@ -1,5 +1,7 @@
 import unittest
 from src.storage import validate_asset
+from unittest.mock import patch
+from src.storage import add_asset
 
 class test_add_asset_blackbox(unittest.TestCase):
 
@@ -197,3 +199,88 @@ class test_add_asset_blackbox(unittest.TestCase):
 
         result = validate_asset(asset)
         self.assertEqual(result, (True, None))
+
+
+
+
+
+    #TC11, add asset valid input
+    def test_add_asset_valid_input(self):
+        user_inputs = [
+            "10",
+            "Dell Laptop",
+            "Electronics",
+            "750",
+            "Available",
+            "Office"
+        ]
+
+        with patch("builtins.input", side_effect=user_inputs):
+            with patch("src.storage.save_asset", return_value=True) as mock_save:
+                result = add_asset()
+        self.assertTrue(result)
+
+        expected_asset = {
+            "asset_id": 10,
+            "name": "Dell Laptop",
+            "category": "Electronics",
+            "value": 750.0,
+            "status": "Available",
+            "location": "Office"
+        }
+        mock_save.assert_called_once_with(expected_asset)
+
+
+    #TC12, invalid asset ID
+    def test_add_asset_invalid_numeric_input(self):
+        user_inputs = [
+            "abc",
+            "Dell Laptop",
+            "Electronics",
+            "750",
+            "Available",
+            "Office"
+        ]
+
+        with patch("builtins.input", side_effect=user_inputs):
+            with patch("src.storage.save_asset") as mock_save:
+                result = add_asset()
+
+        self.assertFalse(result)
+        mock_save.assert_not_called()
+
+
+    #TC13, input fails validation
+    def test_add_asset_validation_failure(self):
+        user_inputs = [
+            "11",
+            "HP Laptop",
+            "Electronics",
+            "-100",
+            "Available",
+            "Office"
+        ]
+
+        with patch("builtins.input", side_effect=user_inputs):
+            with patch("src.storage.save_asset") as mock_save:
+                result = add_asset()
+        self.assertFalse(result)
+        mock_save.assert_not_called()
+
+
+    #TC14, save fails
+    def test_add_asset_save_failure(self):
+        user_inputs = [
+            "12",
+            "Dell Monitor",
+            "Electronics",
+            "200",
+            "Available",
+            "Office"
+        ]
+
+        with patch("builtins.input", side_effect=user_inputs):
+            with patch("src.storage.save_asset", return_value=False) as mock_save:
+                result = add_asset()
+        self.assertFalse(result)
+        mock_save.assert_called_once()
