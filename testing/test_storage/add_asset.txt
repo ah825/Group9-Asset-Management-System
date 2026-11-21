@@ -1,0 +1,24 @@
+#Asset input
+Asset Input:
+    Valid dictionary.
+    Missing required fields.[error]
+    Not a dictionary.[error]
+
+#Asset ID
+Asset ID:
+    Positive integer.
+    Zero or negative.[single]
+    Invalid data type.[single]
+
+#Asset value
+Asset Value:
+    Non-negative number.
+    Negative number.[single]
+    Invalid data type.[single]
+    Non-finite number.[single]
+
+#Text fields
+Text Fields:
+    Valid non-empty strings.
+    Empty or whitespace-only string.[single]
+    Invalid data type.[single]

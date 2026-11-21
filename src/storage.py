@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import os
 import tempfile
+import math
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
@@ -120,3 +121,75 @@ def save_asset(asset, file_path=None):
                 pass
 
 
+
+
+def validate_asset(asset):
+    required_fields = {
+        "asset_id",
+        "name",
+        "category",
+        "value",
+        "status",
+        "location"
+    }
+
+    #Check if asset is dict
+    if not isinstance(asset, dict):
+        return False, "Invalid asset input"
+
+    #Check that all fields exist
+    if not required_fields.issubset(set(asset.keys())):
+        return False, "Invalid asset input"
+
+    #Asset ID must be positive int
+    if type(asset["asset_id"]) is not int or asset["asset_id"] <= 0:
+        return False, "Invalid asset input"
+
+    #Asset value must be non-negative num
+    if type(asset["value"]) not in (int, float) or not math.isfinite(asset["value"]) or asset["value"] < 0:
+        return False, "Invalid asset input"
+
+    #Text fields must be non-empty str
+    text_fields = ["name", "category", "status", "location"]
+    for field in text_fields:
+        if not isinstance(asset[field], str) or not asset[field].strip():
+            return False, "Invalid asset input"
+
+    return True, None
+
+
+#user asset input
+def add_asset():
+    print("\n Add Asset")
+
+    #Gets values from user
+    asset = {
+        "asset_id": input("Enter asset ID: "),
+        "name": input("Enter asset name: "),
+        "category": input("Enter asset category: "),
+        "value": input("Enter asset value: "),
+        "status": input("Enter asset status: "),
+        "location": input("Enter asset location: "),
+    }
+
+    try:
+        #converts into int and float
+        asset["asset_id"] = int(asset["asset_id"])
+        asset["value"] = float(asset["value"])
+    except ValueError:
+        print("Invalid asset input")
+        return False
+
+    #checks converted values
+    valid, error = validate_asset(asset)
+
+    if not valid:
+        print(error)
+        return False
+
+    if save_asset(asset):
+        print("Successfully saved asset")
+        return True
+
+    print("unable to save asset")
+    return False

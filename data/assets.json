@@ -7,6 +7,14 @@
             "value": 750.0,
             "status": "Available",
             "location": "Office"
+        },
+        {
+            "asset_id": 12,
+            "name": "Dell Laptop",
+            "category": "Electronics",
+            "value": 750.0,
+            "status": "Available",
+            "location": "Office"
         }
     ]
 }
